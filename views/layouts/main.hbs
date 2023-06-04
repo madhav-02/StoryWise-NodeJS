@@ -11,14 +11,21 @@
 </head>
 <body>
     {{> _header}}
+    {{> _add_btn}}
     <div class="container">
         {{{body}}}
     </div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.21.0/ckeditor.js" integrity="sha512-ff67djVavIxfsnP13CZtuHqf7VyX62ZAObYle+JlObWZvS4/VQkNVaFBOO6eyx2cum8WtiZ0pqyxLCQKC7bjcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         M.Sidenav.init(document.querySelector('.sidenav'))
+        M.FormSelect.init(document.querySelector('#status'))
+
+        CKEDITOR.replace('body', {
+            plugins: 'wysiwygarea, toolbar, basicstyles, link'
+        })
     </script>
 </body>
 </html>

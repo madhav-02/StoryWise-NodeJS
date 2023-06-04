@@ -21,6 +21,10 @@ conncetDB()
 
 const app = express()
 
+// Body parser
+app.use(express.urlencoded({extended : false}))
+app.use(express.json())
+
 // Only in development mode
 if(process.env.NODE_ENV === 'development') {  // Shows HTTP methods and response in console.
     app.use(morgan('dev'))
@@ -48,6 +52,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // Routes
 app.use('/',require('./routes/index'))
 app.use('/auth',require('./routes/auth'))
+app.use('/stories',require('./routes/stories'))
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, console.log(`Server running in - ${process.env.NODE_ENV} mode on port - ${PORT}`))

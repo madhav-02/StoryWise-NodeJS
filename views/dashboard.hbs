@@ -1,2 +1,28 @@
 <h6>Dashboard</h6>
 <h3>Welcome {{name}} </h3>
+
+{{#if stories}}
+<p>Here are some of your stories.</p>
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each stories}}
+                <tr>
+                    <td><a href="/stories/{{_id}}"></a>{{title}}</td>
+                    <td>{{createdAt}}</td>
+                    <td><span class="dash-status">{{status}}</span></td>
+                    <td></td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{else}}
+<p>You have not stories of your own.</p>
+
+{{/if}}
