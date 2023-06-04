@@ -13,7 +13,7 @@ router.get('/', ensureGuest, (req, res) => {
 
 // For DASHBOARD page
 router.get('/dashboard', ensureAuth, (req, res) => {
-   
+    
     res.render('dashboard')
 })
 
