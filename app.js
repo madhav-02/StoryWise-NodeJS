@@ -30,8 +30,11 @@ if(process.env.NODE_ENV === 'development') {  // Shows HTTP methods and response
     app.use(morgan('dev'))
 }
 
+// Handlebars helpers
+const { formatDate, truncate, stripTags, editIcon } = require("./helpers/handlebarhelper")
+
 // Handlebars - It is a template engine - to generate dynamic HTML
-app.engine('.hbs', exphandlebars.engine({defaultLayout: 'main', extname: '.hbs'}));
+app.engine('.hbs', exphandlebars.engine({helpers: {formatDate, truncate, stripTags, editIcon}, defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', '.hbs')
 
 // Sessions
@@ -45,6 +48,12 @@ app.use(session({
 // Passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
+
+//Set gloabal Variable
+app.use( (req, res, next) => {
+  res.locals.user = req.user || null
+  next()
+})
 
 // Static folders
 app.use(express.static(path.join(__dirname, 'public')))
