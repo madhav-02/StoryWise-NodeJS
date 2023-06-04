@@ -39,6 +39,25 @@ router.get('/', ensureAuth, async (req, res) => {
     }
 })
 
+// GET a single story
+router.get('/:id', ensureAuth, async (req, res) => {
+    try{
+        let story = await Story.findById({_id : req.params.id})
+            .populate('user')
+            .lean()
+
+        if(!story)
+            return res.render('error/404')
+        res.render('stories/show', {
+            story
+        })
+    } catch(err){
+        console.log(err)
+        res.render('error/404')
+    }
+})
+
+// Get the form page for editing the story. GET method.
 router.get('/edit/:id', ensureAuth, async (req, res) => {
 
     try{
@@ -88,5 +107,7 @@ router.delete('/:id', ensureAuth, async(req, res) => {
         res.render('error/500')
     }
 })
+
+// Get a particular Story
 module.exports = router
 
