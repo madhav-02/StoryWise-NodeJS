@@ -38,5 +38,34 @@ router.get('/', ensureAuth, async (req, res) => {
         res.render('error/500')
     }
 })
+
+router.get('/edit/:id', ensureAuth, async (req, res) => {
+    const story = await Story.findOne({ _id : req.params.id}).lean()
+    if(!story)
+        return res.render('error/404')
+    if(req.user.id != story.user)
+        res.redirect('/stories')
+    else
+        res.render('stories/edit',{
+            story
+        })
+})
+
+// Update Story - PUT request
+router.put('/:id', ensureAuth,async (req, res) => {
+   let story = await Story.findById(req.params.id).lean()
+   if(!story){
+    return res.render('error/404')
+   }
+   if(req.user.id != story.user)
+        res.redirect('/stories')
+    else
+        story = await Story.findOneAndUpdate({_id : req.params.id}, req.body, {
+            new: true,
+            runValidators: true
+        })
+
+        res.redirect('/dashboard')
+})
 module.exports = router
 

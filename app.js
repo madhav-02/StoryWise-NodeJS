@@ -8,6 +8,7 @@ const session = require("express-session")
 const MongoStore = require('connect-mongo')(session)
 const passport = require("passport")
 const mongoose = require('mongoose');
+const methodOverride = require("method-override")
 
 // Loading config details
 dotenv.config({ path: './config/config.env'})
@@ -25,16 +26,25 @@ const app = express()
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 
+//Method Override
+app.use(methodOverride( (req, res) =>{
+  if(req.body && typeof req.body === 'object' && '_method' in req.body){
+    let method = req.body._method
+    delete req.body._method
+    return method
+  }
+}))
+
 // Only in development mode
 if(process.env.NODE_ENV === 'development') {  // Shows HTTP methods and response in console.
     app.use(morgan('dev'))
 }
 
 // Handlebars helpers
-const { formatDate, truncate, stripTags, editIcon } = require("./helpers/handlebarhelper")
+const { formatDate, truncate, stripTags, editIcon, select } = require("./helpers/handlebarhelper")
 
 // Handlebars - It is a template engine - to generate dynamic HTML
-app.engine('.hbs', exphandlebars.engine({helpers: {formatDate, truncate, stripTags, editIcon}, defaultLayout: 'main', extname: '.hbs'}));
+app.engine('.hbs', exphandlebars.engine({helpers: {formatDate, truncate, stripTags, editIcon, select}, defaultLayout: 'main', extname: '.hbs'}));
 app.set('view engine', '.hbs')
 
 // Sessions
