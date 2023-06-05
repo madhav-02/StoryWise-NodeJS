@@ -1,6 +1,9 @@
 {
   "name": "storywise",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=16"
+  },
   "description": "Application to create public and private stories that can be shared with other people",
   "main": "app.js",
   "scripts": {
